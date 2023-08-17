@@ -3,13 +3,15 @@ import './App.css';
 import Navigation from './customer/components/navigation/Navigation';
 import HomePage from './customer/pages/HomePage';
 import Footer from './customer/pages/Footer';
+import Product from './customer/pages/Product';
 
 function App() {
   return (
     <div className="">
-      <Navigation className="z-50"/>
+      <Navigation/>
       <div>
-        <HomePage className="-z-10"/>
+        {/* <HomePage/> */}
+        <Product/>
       </div>
       <Footer/>
     </div>
