@@ -2,11 +2,10 @@ import { Fragment, useState } from 'react'
 import { Dialog, Disclosure, Menu, Transition } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import { ChevronDownIcon, FunnelIcon, MinusIcon, PlusIcon, Squares2X2Icon } from '@heroicons/react/20/solid'
+import { MensKurta } from '../../Data/MensKurta'
+import ProductCart from './ProductCart'
 
 const sortOptions = [
-  { name: 'Most Popular', href: '#', current: true },
-  { name: 'Best Rating', href: '#', current: false },
-  { name: 'Newest', href: '#', current: false },
   { name: 'Price: Low to High', href: '#', current: false },
   { name: 'Price: High to Low', href: '#', current: false },
 ]
@@ -28,31 +27,64 @@ const filters = [
       { value: 'brown', label: 'Brown', checked: false },
       { value: 'green', label: 'Green', checked: false },
       { value: 'purple', label: 'Purple', checked: false },
+      { value: 'yellow', label: 'Purple', checked: false },
     ],
   },
-  {
-    id: 'category',
-    name: 'Category',
-    options: [
-      { value: 'new-arrivals', label: 'New Arrivals', checked: false },
-      { value: 'sale', label: 'Sale', checked: false },
-      { value: 'travel', label: 'Travel', checked: true },
-      { value: 'organization', label: 'Organization', checked: false },
-      { value: 'accessories', label: 'Accessories', checked: false },
-    ],
-  },
+//   {
+//     id: 'category',
+//     name: 'Category',
+//     options: [
+//       { value: 'new-arrivals', label: 'New Arrivals', checked: false },
+//       { value: 'sale', label: 'Sale', checked: false },
+//       { value: 'travel', label: 'Travel', checked: true },
+//       { value: 'organization', label: 'Organization', checked: false },
+//       { value: 'accessories', label: 'Accessories', checked: false },
+//     ],
+//   },
   {
     id: 'size',
     name: 'Size',
     options: [
-      { value: '2l', label: '2L', checked: false },
-      { value: '6l', label: '6L', checked: false },
-      { value: '12l', label: '12L', checked: false },
-      { value: '18l', label: '18L', checked: false },
-      { value: '20l', label: '20L', checked: false },
-      { value: '40l', label: '40L', checked: true },
+      { value: 'S', label: 'S', checked: false },
+      { value: 'M', label: 'M', checked: false },
+      { value: 'L', label: 'L', checked: false },
     ],
   },
+]
+const singleFilter =[
+    {
+        id:"price",
+        name:"price",
+        options:[
+            {value:"159-399",label:"₹159 to ₹399"},
+            {value:"399-999",label:"399 to ₹999"},
+            {value:"999-1999",label:"₹999 to ₹1999"},
+            {value:"1999-2999",label:"₹1999 to ₹2999"},
+            {value:"2999-3999",label:"₹2999 to ₹3999"},
+            {value:"3999-4999",label:"₹3999 to ₹4999"},
+        ]
+    },
+    {
+        id:"discount",
+        name:"discount range",
+        options:[
+            {value:"10",label:"10% and above"},
+            {value:"20",label:"20% and above"},
+            {value:"30",label:"30% and above"},
+            {value:"40",label:"40% and above"},
+            {value:"50",label:"50% and above"},
+            {value:"60",label:"60% and above"},
+            {value:"70",label:"70% and above"},
+        ]
+    },
+    {
+        id:"stock",
+        name:"availability",
+        options:[
+            {value:"in_stock",label:"in_stock"},
+            {value:"out_of_stock",label:"out_of_stock"}
+        ]
+    }
 ]
 
 function classNames(...classes) {
@@ -165,7 +197,7 @@ export default function Product() {
           </Dialog>
         </Transition.Root>
 
-        <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <main className="mx-auto px-4 sm:px-6 lg:px-20">
           <div className="flex items-baseline justify-between border-b border-gray-200 pb-6 pt-24">
             <h1 className="text-4xl font-bold tracking-tight text-gray-900">New Arrivals</h1>
 
@@ -233,7 +265,7 @@ export default function Product() {
               Products
             </h2>
 
-            <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-4">
+            <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-5">
               {/* Filters */}
               <form className="hidden lg:block">
                 <h3 className="sr-only">Categories</h3>
@@ -290,7 +322,11 @@ export default function Product() {
               </form>
 
               {/* Product grid */}
-              <div className="lg:col-span-3">{/* Your content */}</div>
+              <div className="lg:col-span-4">
+                <div className='flex flex-wrap justify-center bg-white py-5'>
+                    {MensKurta.map((item)=><ProductCart product={item}/>)}
+                </div>
+              </div>
             </div>
           </section>
         </main>
