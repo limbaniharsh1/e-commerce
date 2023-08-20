@@ -4,6 +4,9 @@ import { XMarkIcon } from '@heroicons/react/24/outline'
 import { ChevronDownIcon, FunnelIcon, MinusIcon, PlusIcon, Squares2X2Icon } from '@heroicons/react/20/solid'
 import { MensKurta } from '../../Data/MensKurta'
 import ProductCart from './ProductCart'
+import { FormControl, FormControlLabel, Radio, RadioGroup } from '@mui/material'
+import { FilterList } from '@mui/icons-material'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 const sortOptions = [
   { name: 'Price: Low to High', href: '#', current: false },
@@ -93,6 +96,34 @@ function classNames(...classes) {
 
 export default function Product() {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
+  const location = useLocation()
+  const navigate = useNavigate()
+
+  const handleFilter=(value,sectionId)=>{
+    let searchParam = new URLSearchParams(location.search)
+    let filterValue = searchParam.getAll(sectionId) 
+
+    if(filterValue.length>0 && filterValue[0].split(',').includes(value)){
+      filterValue=filterValue[0].split(',').filter((item)=>item!==value)
+      if(filterValue.length === 0){
+        searchParam.delete(sectionId)
+      }
+    }else{
+      filterValue.push(value)
+    }
+    if(filterValue.length>0){
+      searchParam.set(sectionId,filterValue.join(','))
+    }
+    const query=searchParam.toString();
+    navigate({search:`?${query}`})
+  }
+
+  const handleRadioFilter=(sectionId,e)=>{
+    const searchParam = new URLSearchParams(location.search)
+    searchParam.set(sectionId,e.target.value)
+    const query=searchParam.toString();
+    navigate({search:`?${query}`})
+  }
 
   return (
     <div className="bg-white">
@@ -199,7 +230,7 @@ export default function Product() {
 
         <main className="mx-auto px-4 sm:px-6 lg:px-20">
           <div className="flex items-baseline justify-between border-b border-gray-200 pb-6 pt-24">
-            <h1 className="text-4xl font-bold tracking-tight text-gray-900">New Arrivals</h1>
+            <h1 className="text-4xl font-bold tracking-tight text-gray-900">products</h1>
 
             <div className="flex items-center">
               <Menu as="div" className="relative inline-block text-left">
@@ -277,6 +308,10 @@ export default function Product() {
                   ))}
                 </ul> */}
 
+                <div className="py-6 flex justify-between items-center">
+                  <h2 className='text-lg opacity-50 font-bold'>Filters</h2>
+                  <FilterList/>
+                </div>
                 {filters.map((section) => (
                   <Disclosure as="div" key={section.id} className="border-b border-gray-200 py-6">
                     {({ open }) => (
@@ -298,6 +333,7 @@ export default function Product() {
                             {section.options.map((option, optionIdx) => (
                               <div key={option.value} className="flex items-center">
                                 <input
+                                onClick={()=>handleFilter(option.value,section.id)}
                                   id={`filter-${section.id}-${optionIdx}`}
                                   name={`${section.id}[]`}
                                   defaultValue={option.value}
@@ -337,24 +373,15 @@ export default function Product() {
                         </h3>
                         <Disclosure.Panel className="pt-6">
                           <div className="space-y-4">
-                            {section.options.map((option, optionIdx) => (
-                              <div key={option.value} className="flex items-center">
-                                <input
-                                  id={`filter-${section.id}-${optionIdx}`}
-                                  name={`${section.id}[]`}
-                                  defaultValue={option.value}
-                                  type="checkbox"
-                                  defaultChecked={option.checked}
-                                  className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
-                                />
-                                <label
-                                  htmlFor={`filter-${section.id}-${optionIdx}`}
-                                  className="ml-3 text-sm text-gray-600"
-                                >
-                                  {option.label}
-                                </label>
-                              </div>
-                            ))}
+                            <FormControl>
+                              <RadioGroup aria-aria-labelledby='demo-radio-bottons-group-label' defaultValue="female" name="radio-buttons-group">
+                                {section.options.map((option, optionIdx) => (
+                                  <div key={option.value} className="flex items-center">
+                                    <FormControlLabel onChange={(e)=>handleRadioFilter(section.id,e)} value={option.value} control={<Radio/>}label={option.label}/>
+                                  </div>
+                                ))}
+                              </RadioGroup>
+                            </FormControl>
                           </div>
                         </Disclosure.Panel>
                       </>
