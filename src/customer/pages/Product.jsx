@@ -105,6 +105,7 @@ export default function Product() {
 
     if(filterValue.length>0 && filterValue[0].split(',').includes(value)){
       filterValue=filterValue[0].split(',').filter((item)=>item!==value)
+      console.log(filterValue)
       if(filterValue.length === 0){
         searchParam.delete(sectionId)
       }
