@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { StarIcon } from "@heroicons/react/20/solid";
 import { RadioGroup } from "@headlessui/react";
-import { Rating } from "@mui/material";
+import { Button, Grid, Rating } from "@mui/material";
 
 const product = {
   name: "Basic Tee 6-Pack",
@@ -151,12 +151,13 @@ export default function ProductDetails() {
                 <div className="flex items-center space-x-3">
                   <Rating name="read-only" value={3.5} readOnly />
                   <p className="opacity-50 text-sm">59184 ratings</p>
-                  <p className="ml-3 text-sm font-medium text-indigo-600 hover:text-indigo-500">1089 reviews</p>
+                  <p className="ml-3 text-sm font-medium text-indigo-600 hover:text-indigo-500">
+                    1089 reviews
+                  </p>
                 </div>
               </div>
 
               <form className="mt-10">
-
                 {/* Sizes */}
                 <div className="mt-10">
                   <div className="flex items-center justify-between">
@@ -232,12 +233,13 @@ export default function ProductDetails() {
                   </RadioGroup>
                 </div>
 
-                <button
-                  type="submit"
-                  className="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                <Button
+                  color="secondary"
+                  variant="contained"
+                  sx={{ px: "2rem", py: "1rem" }}
                 >
-                  Add to bag
-                </button>
+                  Add To Cart
+                </Button>
               </form>
             </div>
 
@@ -277,6 +279,22 @@ export default function ProductDetails() {
                 </div>
               </div>
             </div>
+          </div>
+        </section>
+
+        {/* rating and reviews */}
+        <section>
+          <h1 className="font-semibold text-lg pb-4">
+            Recent Reviews & Rating
+          </h1>
+          <div className="border p-5">
+            <Grid container spacing={7}>
+              <Grid item xs={7}>
+                <div className="space-y-5">
+                  
+                </div>
+              </Grid>
+            </Grid>
           </div>
         </section>
       </div>
