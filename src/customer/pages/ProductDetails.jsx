@@ -1,7 +1,10 @@
 import { useState } from "react";
 import { StarIcon } from "@heroicons/react/20/solid";
 import { RadioGroup } from "@headlessui/react";
-import { Button, Grid, Rating } from "@mui/material";
+import { Box, Button, Grid, LinearProgress, Rating } from "@mui/material";
+import ProductReviewCard from "./ProductReviewCard";
+import { MensKurta } from "../../Data/MensKurta";
+import HomeSectionCard from "../components/HomeSectionCard/HomeSectionCard";
 
 const product = {
   name: "Basic Tee 6-Pack",
@@ -62,7 +65,7 @@ export default function ProductDetails() {
   const [selectedSize, setSelectedSize] = useState(product.sizes[2]);
 
   return (
-    <div className="bg-white">
+    <div className="bg-white lg:px-20">
       <div className="pt-6">
         <nav aria-label="Breadcrumb">
           <ol
@@ -291,11 +294,80 @@ export default function ProductDetails() {
             <Grid container spacing={7}>
               <Grid item xs={7}>
                 <div className="space-y-5">
-                  
+                  {[1, 1, 1].map((res) => (
+                    <ProductReviewCard />
+                  ))}
                 </div>
+              </Grid>
+              <Grid item xs={5}>
+                <h1 className="text-xl font-semibold pb-1">Product Rating</h1>
+                <div className="flex items-center space-x-3">
+                  <Rating
+                    name="read-only"
+                    value={4.5}
+                    precision={0.5}
+                    readOnly
+                  />
+                  <p className="opacity-60">1098 Ratings</p>
+                </div>
+
+                <Box className='mt-5 space-y-3'>
+                  <Grid container alignItems='center' gap={2}>
+                    <Grid item xs={2}>
+                      <p>Excellent</p>
+                    </Grid>
+                    <Grid item xs={7}>
+                      <LinearProgress sx={{bgcolor:'#d0d0d0',borderRadius:4,height:7}} variant="determinate" value={40} color="success"/>
+                    </Grid>
+                  </Grid>
+
+                  <Grid container alignItems='center' gap={2}>
+                    <Grid item xs={2}>
+                      <p>Very Good</p>
+                    </Grid>
+                    <Grid item xs={7}>
+                      <LinearProgress sx={{bgcolor:'#d0d0d0',borderRadius:4,height:7}} variant="determinate" value={30} color="success"/>
+                    </Grid>
+                  </Grid>
+
+                  <Grid container alignItems='center' gap={2}>
+                    <Grid item xs={2}>
+                      <p>Good</p>
+                    </Grid>
+                    <Grid item xs={7}>
+                      <LinearProgress sx={{bgcolor:'#d0d0d0',borderRadius:4,height:7,color:'yellow'}} variant="determinate" value={25}/>
+                    </Grid>
+                  </Grid>
+
+                  <Grid container alignItems='center' gap={2}>
+                    <Grid item xs={2}>
+                      <p>Avarage</p>
+                    </Grid>
+                    <Grid item xs={7}>
+                      <LinearProgress sx={{bgcolor:'#d0d0d0',borderRadius:4,height:7}} variant="determinate" value={20} color="warning"/>
+                    </Grid>
+                  </Grid>
+
+                  <Grid container alignItems='center' gap={2}>
+                    <Grid item xs={2}>
+                      <p>poor</p>
+                    </Grid>
+                    <Grid item xs={7}>
+                      <LinearProgress sx={{bgcolor:'#d0d0d0',borderRadius:4,height:7}} variant="determinate" value={15} color="error"/>
+                    </Grid>
+                  </Grid>
+                </Box>
               </Grid>
             </Grid>
           </div>
+        </section>
+
+        {/* similar products */}
+        <section className="pt-10">
+            <h1 className="py-5 text-xl font-bold">Similar Product</h1>
+            <div className="flex flex-wrap space-y-5">
+              {MensKurta.map((item)=><HomeSectionCard product={item}/>)}
+            </div>
         </section>
       </div>
     </div>
