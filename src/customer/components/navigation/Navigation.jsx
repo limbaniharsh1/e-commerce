@@ -3,6 +3,7 @@ import { Dialog, Popover, Tab, Transition } from '@headlessui/react'
 import { Bars3Icon, MagnifyingGlassIcon, ShoppingBagIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { Avatar, Menu, MenuItem } from '@mui/material'
 import { deepPurple } from '@mui/material/colors'
+import { useNavigate } from 'react-router-dom'
 
 const navigation = {
   categories: [
@@ -136,6 +137,8 @@ export default function Navigation() {
   const [anchoreEl,setAnchoreEl]=useState(null)
   const openUserMenu = Boolean(anchoreEl)
   const [openAuthModel,setOpenAuthModel]=useState(false)
+  
+  let navigate = useNavigate()
 
   let handleUserClick=(event)=>{
     setAnchoreEl(event.currentTarget)
@@ -150,6 +153,7 @@ export default function Navigation() {
     setOpenAuthModel(false)
   }
   let handleCategoryClick=(category,section,item,close)=>{
+    navigate(`${category.id}/${section.id}/${item.name}`)
     close()
   }
 
@@ -331,7 +335,7 @@ export default function Navigation() {
                 <div className="flex h-full space-x-8">
                   {navigation.categories.map((category) => (
                     <Popover key={category.name} className="flex">
-                      {({ open }) => (
+                      {({ open,close }) => (
                         <>
                           <div className="relative flex">
                             <Popover.Button
@@ -395,9 +399,10 @@ export default function Navigation() {
                                           >
                                             {section.items.map((item) => (
                                               <li key={item.name} className="flex">
-                                                <a href={item.href} className="hover:text-gray-800">
+                                                {/* <a href={item.href} className="hover:text-gray-800">
                                                   {item.name}
-                                                </a>
+                                                </a> */}
+                                                <p className='cursor-pointer hover:text-gray-800' onClick={()=>handleCategoryClick(category,section,item,close)}>{item.name}</p>
                                               </li>
                                             ))}
                                           </ul>
@@ -441,7 +446,7 @@ export default function Navigation() {
                         </Avatar>
                         <Menu id="basic-menu" anchoreEl={anchoreEl} open={openUserMenu} onClose={handleCloseUserMenu} MenuListProps={{"aria-labelledby":"basic-button"}} className='absolute top-0'>
                             <MenuItem onClick={handleCloseUserMenu}>profile</MenuItem>
-                            <MenuItem>My orders</MenuItem>
+                            <MenuItem onClick={()=>navigate('/account/order')}>My orders</MenuItem>
                             <MenuItem>Logout</MenuItem>
                         </Menu>
                       </div>

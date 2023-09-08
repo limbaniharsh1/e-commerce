@@ -1,15 +1,15 @@
-import React from "react";
-import CartItem from "./CartItem";
-import { Button } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import React from 'react'
+import AddressCard from './AddressCard'
+import { Button } from '@mui/material'
+import CartItem from './CartItem'
 
-const Cart = () => {
-  let navigate = useNavigate()
-  const handleCheckout=()=>{
-    navigate('/checkout?step=2')
-  }
+const OrderSummary = () => {
   return (
     <div>
+      <div className="p-5 shadow-lg rounded-s-md border">
+        <AddressCard/>
+      </div>
+      <div>
       <div className="lg:grid grid-cols-3 lg:px-16 relative">
         <div className="col-span-2">
           {[1,1,1,1,1].map((item)=><CartItem />)}
@@ -36,14 +36,15 @@ const Cart = () => {
                 <span className="text-green-600">₹2245</span>
               </div>
             </div>
-            <Button onClick={()=>handleCheckout()} variant="contained" className="w-full mt-5" sx={{px:"2.5rem",py:".7rem",bgcolor:"#9155fd"}}>
+            <Button variant="contained" className="w-full mt-5" sx={{px:"2.5rem",py:".7rem",bgcolor:"#9155fd"}}>
               chechout
             </Button>
           </div>
         </div>
       </div>
     </div>
-  );
-};
+    </div>
+  )
+}
 
-export default Cart;
+export default OrderSummary
