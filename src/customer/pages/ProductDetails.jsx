@@ -1,11 +1,15 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { StarIcon } from "@heroicons/react/20/solid";
 import { RadioGroup } from "@headlessui/react";
 import { Box, Button, Grid, LinearProgress, Rating } from "@mui/material";
 import ProductReviewCard from "./ProductReviewCard";
 import { MensKurta } from "../../Data/MensKurta";
 import HomeSectionCard from "../components/HomeSectionCard/HomeSectionCard";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { findProductById } from "../../Redux/Product/Action";
+import { Store } from "@mui/icons-material";
+import { addItemToCart } from "../../Redux/Cart/Action";
 
 const product = {
   name: "Basic Tee 6-Pack",
@@ -65,10 +69,24 @@ export default function ProductDetails() {
   const [selectedColor, setSelectedColor] = useState(product.colors[0]);
   const [selectedSize, setSelectedSize] = useState(product.sizes[2]);
   let navigate = useNavigate()
-
-const handleCart =()=>{
+  const param = useParams()
+  const dispatch = useDispatch()
+  
+  const handleCart =()=>{
   navigate('/cart')
+  const data = {productId:param.productId,size:selectedSize.name}
+  dispatch(addItemToCart(data))
+  console.log(data)
 }
+
+useEffect(() => {
+  const data = {productId:param.productId}
+  console.log(data)
+  dispatch(findProductById(data))
+}, [param.productId])
+
+const {products} = useSelector((store)=>store)
+console.log(products.product)
 
   return (
     <div className="bg-white lg:px-20">
@@ -117,7 +135,7 @@ const handleCart =()=>{
           <div className="flex flex-col items-center">
             <div className="overflow-hidden rounded-lg max-w-[30rem] max-h-[35rem]">
               <img
-                src={product.images[0].src}
+                src={products.product && products.product.imageUrl}
                 alt={product.images[0].alt}
                 className="h-full w-full object-cover object-center"
               />
@@ -139,10 +157,10 @@ const handleCart =()=>{
           <div className="lg:col-span-1 max-w-2xl px-4 pb-16 sm:px-6 lg:max-w-7xl lg:px-8 lg:pb-24">
             <div className="lg:col-span-2">
               <h1 className="text-lg lg:text-xl font-semibold text-gray-900">
-                universaloutfit
+                {products.product && products.product.brand}
               </h1>
               <h2 className="text-lg lg:text-xl text-gray-900 opacity-60 pt-1">
-                casual puff sleeves solid top
+                {products.product && products.product.title}
               </h2>
             </div>
 
@@ -151,8 +169,8 @@ const handleCart =()=>{
               <h2 className="sr-only">Product information</h2>
 
               <div className="flex space-x-5 items-center text-lg lg:text-xl text-gray-900 mt-6">
-                <p className="font-semibold">₹199</p>
-                <p className="text-green-600 font-semibold">5% off</p>
+                <p className="font-semibold">₹{products.product && products.product.price}</p>
+                <p className="text-green-600 font-semibold">{products.product && products.product.discountedPersent}% off</p>
               </div>
 
               {/* Reviews */}
@@ -246,7 +264,7 @@ const handleCart =()=>{
                 onClick={()=>handleCart()}
                   color="secondary"
                   variant="contained"
-                  sx={{ px: "2rem", py: "1rem" }}
+                  sx={{ px: "2rem", py: "1rem", mt:"1.9rem"}}
                 >
                   Add To Cart
                 </Button>

@@ -13,6 +13,9 @@ export const MensKurta=[
         "secondLevelCategory":"Clothing",
         "thirdLevelCategory":"mens_kurta",
         "description": "A classic traditional silk kurta in vibrant red color...",
+        "topLavelCategory":"Men",
+        "secondLavelCategory":"clothing",
+        "thirdLavelCategory":"Tops"
       },
       {
         "id":2,
